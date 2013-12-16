@@ -1,0 +1,14 @@
+{
+	"sdb" : {
+		"bg" : "bg",
+		"title" : "Salle de bain"
+	},
+	"cuisine" : {
+		"bg" : "bg",
+		"title" : "Cuisine"
+	},
+	"salon" : {
+		"bg" : "bg",
+		"title" : "Salon"
+	}
+}

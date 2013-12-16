@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Hello World</title>
+    </head>
+    <style>
+    html, body{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        color: white;
+        background-color: black;
+    }
+
+    ul{
+        margin: 0;
+        padding: 0;
+    }
+
+    li{
+        width: 100%;
+        opacity: 1;
+        display: inline-block;
+        text-align: center;
+        list-style-type: none;
+        -webkit-animation: all .6s ease;
+    }
+
+    li img{
+        width: 100%;
+        outline: none;
+    }
+
+    img{
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    section{
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    section.instrument img{
+        position: absolute;
+    }
+
+    .noDisplay{
+        opacity: 0;
+        display: none;
+        
+    }
+
+    .animated{
+        -webkit-animation-fill-mode:both;
+        -moz-animation-fill-mode:both;
+        -ms-animation-fill-mode:both;
+        -o-animation-fill-mode:both;
+        animation-fill-mode:both;
+        -webkit-animation-duration:.4s;
+        -moz-animation-duration:.4s;
+        -ms-animation-duration:.4s;
+        -o-animation-duration:.4s;
+        animation-duration:.4s;
+    }
+
+
+    @-webkit-keyframes slideInLeft {
+        0% {
+            opacity: 0;
+            -webkit-transform: translateX(-2000px);
+        }   100% {
+            -webkit-transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-2000px);
+        }
+        
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    .slideInLeft {
+        -webkit-animation-name: slideInLeft;
+        -moz-animation-name: slideInLeft;
+        -o-animation-name: slideInLeft;
+        animation-name: slideInLeft;
+    }
+
+    @-webkit-keyframes slideInRight {
+        0% {
+            opacity: 0;
+            -webkit-transform: translateX(2000px);
+        }
+        
+        100% {
+            -webkit-transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        0% {
+            opacity: 0;
+            transform: translateX(2000px);
+        }
+        
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    .slideInRight {
+        -webkit-animation-name: slideInRight;
+        -moz-animation-name: slideInRight;
+        -o-animation-name: slideInRight;
+        animation-name: slideInRight;
+    }
+
+    @keyframes slideOutLeft {
+        0% {
+            transform: translateX(0);
+        }
+        
+        100% {
+            opacity: 0;
+            display: none;
+            transform: translateX(-2000px);
+        }
+    }
+
+    .slideOutLeft {
+        -webkit-animation-name: slideOutLeft;
+        -moz-animation-name: slideOutLeft;
+        -o-animation-name: slideOutLeft;
+        animation-name: slideOutLeft;
+    }
+
+    @-webkit-keyframes slideOutRight {
+        0% {
+            -webkit-transform: translateX(0);
+        }
+        
+        100% {
+            opacity: 0;
+            -webkit-transform: translateX(2000px);
+        }
+    }
+
+    @keyframes slideOutRight {
+        0% {
+            transform: translateX(0);
+        }
+        
+        100% {
+            opacity: 0;
+            transform: translateX(2000px);
+        }
+    }
+
+    .slideOutRight {
+        -webkit-animation-name: slideOutRight;
+        -moz-animation-name: slideOutRight;
+        -o-animation-name: slideOutRight;
+        animation-name: slideOutRight;
+    }
+
+    </style>
+    <body>
+        <ul>
+            
+        </ul>    
+        <section class="instrument">
+
+        </section>
+        
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>        
+        <script type="text/javascript" src="http://aurelien-georget.local:1337/socket.io/socket.io.js"></script>
+        <script src="js/shake.js"></script>
+        <script src="js/touchSwipe.js"></script>
+        <script type="text/javascript">
+
+            var socket = io.connect('http://aurelien-georget.local:1337/');
+            var myId;
+            var clientWidth = $(document).width();
+            var myInstrument, myMvt, thePlace;
+
+            /* Nous connectes à l'écran principal */
+            socket.emit('connect', 'instrument');
+
+            /* On est bien connecté */
+            socket.on('connected', function(data){
+                thePlace = data;
+
+                 /* On génère les instruments de la pièce */
+                $.getJSON("js/instruments.json", function(data){
+                    var i=0;
+                    $.each(data, function(key,val){
+                        if(val.place == thePlace){
+                            $('ul').append("<li class='noDisplay'><img src='img/"+key+".svg' title='"+key+"' alt='"+i+"' /></li>");
+                            i++;
+                        }
+                        
+                    });
+
+                    var li = $('ul>li');
+                    for(var i=0; i<li.length; i++){
+                        if(i==0)
+                            $(li[i]).removeClass();
+                    }
+
+                    $('ul>li').swipe({
+                        swipe:function(event, direction, distance, duration, fingerCount) {
+                            var li = $('ul>li'), animationNext, animationPrec;
+
+                            if(direction == "left"){
+                                animationNext = "slideInRight";
+                                animationPrec = "slideOutLeft";
+                            }
+                            else{
+                                animationNext = "slideInLeft";
+                                animationPrec = "slideOutRight";
+                            }
+                                
+
+                            $('ul>li img[alt='+event.target.alt+']').parent().removeClass().addClass(animationPrec).addClass("noDisplay");
+
+                            if(li.length-1 == parseInt(event.target.alt))
+                                $('ul>li img[alt=0]').parent().removeClass().addClass(animationNext).addClass("animated");
+                            else    
+                                $('ul>li img[alt='+(parseInt(event.target.alt)+1)+']').parent().removeClass().addClass(animationNext).addClass("animated");
+                        },
+                        threshold: 75
+                    });  
+                });
+
+                /* Récupération de son id */
+                socket.on('myId', function(data){
+                    myId = data;
+                });
+
+                /* Le serveur renvoit une erreur car la partie est pleine */
+                socket.on('sorry', function(){
+                    document.write("Désolé la partie est pleine!");
+                });
+
+                /* Fin de la partie, on redirige le joueur */
+                socket.on('thanks', function(){
+                    if(myMvt == "shake"){
+                        $(window).off('shake');
+                    }
+                    else if(myMvt == "swipe"){
+                        $('body').swipe("destroy");
+                    }
+                    else{
+                        $('section.instrument').off('touchstart');
+                    }
+
+                    /* On renvoie au serveur qu'on veut se déconnecter */
+                    socket.emit('goOut');
+                    document.write("Merci d'avoir joué!");
+                })
+
+                /* Sélection de son instrument */
+                $('ul').on('vclick', 'li img', function(e){
+
+                    myInstrument = e.currentTarget.title.toLowerCase(); // On passe en minuscule le nom de l'instrument
+                    socket.emit("chooseInstrument", e.currentTarget.title); // Envoie au serveur de l'instrument choisi
+
+                    $('ul').hide(); // On cache la sélection des instruments
+                    $('section.instrument').html('<img src="'+e.currentTarget.src+'" />').show(); // On affiche son instrument
+
+                    /* On va chercher le mouvement de l'instrument */
+                    $.getJSON("js/instruments.json", function(data){
+                        $.each(data, function(key,val){
+                            if(myInstrument == key)
+                                myMvt = val.evt;
+                        });
+
+                        /* Selon l'instrument, on écoute différents évènements ou geste */
+                        if(myMvt == "shake"){
+
+                            /* Si on shake le mobile, on joue la musique */
+                            if(window.DeviceMotionEvent){
+                                
+                                window.addEventListener('shake', function(){
+                                    socket.emit("click", myId);
+                                }, false);
+                            } 
+                            else{
+                                /* Sinon on lui dit qu'il ne peut pas utiliser l'instrument */
+                                document.write("Votre mobile ne supporte pas cet instrument!");
+                                setTimeout(function(){
+                                    window.location.href = "controller.html";
+                                }, 2000);
+                            }
+                        }
+                        else if(myMvt == "swipe"){
+                            /* Si on swipe, on joue de la musique */
+                            $('body').swipe( {
+                                swipe:function(event, direction, distance, duration, fingerCount) {
+                                    $('section.instrument img').css({top:event.y, left:event.x});
+                                    socket.emit("click", myId);
+                                    socket.emit("message", direction);       
+                                },
+                                
+                                threshold:(clientWidth/2) // Déclenche un son lorsqu'il swipe la moitié de l'écran
+                            });
+                        }
+                        else{
+                            /* Lorsqu'il clique sur l'instrument, on joue */
+                            $('section.instrument').on('vclick', function(e){
+                                var top = e.clientY-$('section.instrument img').height();
+                                var left = e.clientX-($('section.instrument img').width()/2);
+                                $('section.instrument img').css({top:top, left:left});
+                                socket.emit("click", myId);
+                            });
+                        }
+
+                    });
+                });           
+            });          
+        </script>
+    </body>
+</html>

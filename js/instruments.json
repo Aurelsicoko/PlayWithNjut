@@ -1,0 +1,58 @@
+{
+	"rideau" : {
+		"evt" : "shake",
+		"place" : "sdb"
+	},
+	"balai" : {
+		"evt" : "click",
+		"place" : "cuisine"
+	},
+	"minuteur" : {
+		"evt" : "swipe",
+		"place" : "cuisine"
+	},
+	"couteau" : {
+		"evt" : "swipe",
+		"place" : "cuisine"
+	},
+	"chaise" : {
+		"evt" : "click",
+		"place" : "salon"
+	},
+	"pommeDouche" : {
+		"evt" : "swipe",
+		"place" : "sdb"
+	},
+	"arrosoir" : {
+		"evt" : "shake",
+		"place" : "salon"
+	},
+	"oreiller" : {
+		"evt" : "click",
+		"place" : "salon"
+	},
+	"brosseAdent" : {
+		"evt" : "swipe",
+		"place" : "sdb"
+	},
+	"casserole" : {
+		"evt" : "shake",
+		"place" : "salon"
+	},
+	"eponge" : {
+		"evt" : "swipe",
+		"place" : "sdb"
+	},
+	"meuble" : {
+		"evt" : "click",
+		"place" : "salon"
+	},
+	"robinet" : {
+		"evt" : "click",
+		"place" : "sdb"
+	},
+	"saliere" : {
+		"evt" : "shake",
+		"place" : "cuisine"
+	}
+}
