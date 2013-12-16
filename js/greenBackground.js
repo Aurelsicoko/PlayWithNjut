@@ -3,7 +3,7 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
            navigator.mozGetUserMedia ||
            navigator.msGetUserMedia);
 
-var video, width, height, context, canvas;
+var video, width, height, context, canvas, theStream;
 
 
 
@@ -23,6 +23,7 @@ function initialize(callback) {
 	// Get the webcam's stream.
 	navigator.getUserMedia({video: true}, function(stream){
 		callback();
+		theStream = stream;
 		video.src = URL.createObjectURL(stream);
 		video.play();
 		
@@ -32,7 +33,7 @@ function initialize(callback) {
 }
 
 function stopStream(){
-	video.pause();
+	theStream.stop();
 	video.src="";
 }
 

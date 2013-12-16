@@ -1,14 +1,23 @@
 {
   "name": "Aurelsicoko",
-  "subdomain": "aurelien.georget",
+  "author": {
+    "name": "Team 4 - HETIC Inc."
+  },
   "scripts": {
     "start": "node server.js"
   },
-  "version": "0.0.1-18",
-  "bundledDependencies": [
-    "socket.io"
-  ],
+  "version": "0.1.3-58",
+  "dependencies": {
+    "socket.io": "0.9.x",
+    "express": "3.0.x",
+    "twit": "x.x.xx"
+  },
   "engines": {
-    "node": "0.10.x"
-  }
+    "node": "0.8.x"
+  },
+  "analyze": false,
+  "readme": "PlayWithNjut",
+  "readmeFilename": "ReadMe.md",
+  "description": "[https://socket.io](https://socket.io)",
+  "subdomain": "aurelien.georget"
 }

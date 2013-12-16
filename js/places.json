@@ -1,14 +1,14 @@
 {
 	"sdb" : {
-		"bg" : "bg",
-		"title" : "Salle de bain"
+		"title" : "Salle de bain",
+		"bg" : "blue"
 	},
 	"cuisine" : {
-		"bg" : "bg",
-		"title" : "Cuisine"
+		"title" : "Cuisine",
+		"bg" : "green"
 	},
 	"salon" : {
-		"bg" : "bg",
-		"title" : "Salon"
+		"title" : "Salon",
+		"bg" : "red"
 	}
 }

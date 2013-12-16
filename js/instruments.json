@@ -1,58 +1,77 @@
 {
 	"rideau" : {
 		"evt" : "shake",
-		"place" : "sdb"
+		"place" : "sdb",
+		"title" : "du rideau"
 	},
 	"balai" : {
 		"evt" : "click",
-		"place" : "cuisine"
+		"place" : "cuisine",
+		"title" : "du balai"
 	},
 	"minuteur" : {
 		"evt" : "swipe",
-		"place" : "cuisine"
+		"place" : "cuisine",
+		"title" : "du minuteur"
 	},
 	"couteau" : {
 		"evt" : "swipe",
-		"place" : "cuisine"
+		"place" : "cuisine",
+		"title" : "du couteau"
 	},
 	"chaise" : {
 		"evt" : "click",
-		"place" : "salon"
+		"place" : "salon",
+		"title" : "de la chaise"
 	},
 	"pommeDouche" : {
 		"evt" : "swipe",
-		"place" : "sdb"
+		"place" : "sdb",
+		"title" : "de la pomme de douche"
 	},
 	"arrosoir" : {
 		"evt" : "shake",
-		"place" : "salon"
+		"place" : "salon",
+		"title" : "de l'arrosoir"
 	},
 	"oreiller" : {
 		"evt" : "click",
-		"place" : "salon"
+		"place" : "salon",
+		"title" : "de l'oreiller"
 	},
 	"brosseAdent" : {
 		"evt" : "swipe",
-		"place" : "sdb"
+		"place" : "sdb",
+		"title" : "de la brosse à dent"
 	},
 	"casserole" : {
 		"evt" : "shake",
-		"place" : "salon"
+		"place" : "salon",
+		"title" : "de la casserole"
 	},
 	"eponge" : {
 		"evt" : "swipe",
-		"place" : "sdb"
+		"place" : "sdb",
+		"title" : "de l'éponge"
+	},
+	"store" : {
+		"evt" : "swipe",
+		"place" : "salon",
+		"title" : "du store"
 	},
 	"meuble" : {
 		"evt" : "click",
-		"place" : "salon"
+		"place" : "salon",
+		"title" : "du meuble"
 	},
 	"robinet" : {
 		"evt" : "click",
-		"place" : "sdb"
+		"place" : "sdb",
+		"title" : "du robinet"
 	},
 	"saliere" : {
 		"evt" : "shake",
-		"place" : "cuisine"
+		"place" : "cuisine",
+		"title" : "de la salière"
 	}
 }

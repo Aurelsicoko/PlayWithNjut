@@ -1,0 +1,468 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* */
+
+html,body{
+    width:100%;
+    height:100%;
+    position:relative;
+}
+
+/* View home */
+
+section#home {
+    position:relative;
+    display:block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+section#home img
+{
+    margin:auto;
+    display:block;
+
+}
+
+section#home h1, section#home h2
+{
+    position: relative;
+    text-align:center;
+    color:white;
+    z-index:4;
+    font-family:Verdana;
+}
+
+section#home .normal
+{
+    margin-left:5%;
+    margin-right:5%;
+    margin-top:13%;
+    text-transform:uppercase;
+    font-weight:500;
+    font-size: 1.5em;
+}
+
+section#home .gras
+{
+    margin-left:5%;
+    margin-right:5%;
+    text-transform:uppercase;
+    font-weight:bold;
+    font-size:3em;
+}
+
+section#home h2
+{
+    font-size:100%;
+}
+
+section#home #logo
+{
+    width:20%;
+    position:relative;
+    margin-top:4%;
+    z-index:4;
+}
+
+section#home #scan
+{
+    border-color:white;
+    border-width:3px;
+    border-style: solid;
+    margin-top:8%;
+    margin-left:30%;
+    margin-right:30%;
+    min-width:200px;
+    padding: 1%;
+
+}
+
+section#home #qrcode img
+{
+    width:40%;
+    z-index:4;
+    margin-top:2%;
+    border: 2px solid white;
+}
+
+section#home #container {
+    position: relative;
+    overflow: hidden;
+    z-index:-2;
+}
+
+section#home .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background-image:url('../img/motif_bg.png');
+    background-repeat: repeat;
+}
+
+/* View Jeu */
+
+section#jeu{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: relative;
+    background-image: url('../img/fond1.png');
+    background-size: cover;
+}
+
+section.baf{
+    position: relative;
+    z-index: 0;
+}
+
+section#jeu canvas{
+    position: relative;
+    overflow: hidden;
+}
+
+section#jeu video{
+    display: none;
+}
+
+section#jeu #c, section#jeu #v{
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+section#jeu #listimg{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height: 25%;
+    z-index: 10;
+}
+
+section#jeu #listimg>div{
+    position: absolute;
+    width:90px;
+    height:114px;
+    text-align: center;
+    background-image: url('../img/pin_twitter.png');
+    background-repeat: no-repeat;
+}
+
+section#jeu #listimg>div img{
+    display: inline-block;
+    border-radius: 70px;
+    width: 70px;
+    margin-top: 5px;
+}
+
+section#jeu .baf img{
+    display: block;
+    animation:anim_baf 1s infinite;
+    -webkit-animation:anim_baf 1s infinite;
+}
+
+section#jeu #baf_droite{
+    position:absolute;
+    top:0;
+    left:5%;
+}
+
+section#jeu #baf_gauche{
+    position:absolute;
+    top:0;
+    left:70%;
+}
+
+section#jeu .foule{
+    width:100%;
+    height:20%;
+    bottom:0;
+    position:absolute;
+    z-index: 8;
+    overflow: hidden;
+}
+
+section#jeu .foule img{
+    width:20%;
+    float:left;
+    display: block;
+}
+
+section#jeu .foule div:first-of-type{
+    overflow: hidden;
+}
+
+section#jeu .foule #decal{
+    position: absolute;
+    left: 15%;
+    top: 0;
+}
+
+section#jeu .foule img.a{
+    transform-origin: 50% 100%;
+    animation:anim1 1s infinite;
+    -webkit-animation:anim1 1s infinite;
+}
+
+section#jeu .foule img.b{
+    transform-origin: 50% 100%;
+    animation:anim2 1s infinite;
+    -webkit-animation:anim2 1s infinite;
+}
+
+section#jeu .foule img.c{
+    transform-origin: 50% 100%;
+    animation:anim3 1s infinite;
+    -webkit-animation:anim3 1s infinite;
+}
+
+section#jeu .foule img.d{
+    transform-origin: 50% 100%;
+    animation:anim4 1s infinite;
+    -webkit-animation:anim4 1s infinite;
+}
+
+
+/* View thank */
+
+section#end{
+    position:relative;
+    display:block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-image:url('../img/motif_bg.png');
+    background-repeat: repeat;
+}    
+
+section#end #container{
+    margin:auto;
+    text-align:center;
+    background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, #53B8EB, 50%);
+    background-image:    -moz-radial-gradient(50% 50%, ellipse closest-side, #53B8EB, 50%);
+    background-image:     -ms-radial-gradient(50% 50%, ellipse closest-side, #53B8EB, 50%);
+    background-image:      -o-radial-gradient(50% 50%, ellipse closest-side, #53B8EB, 50%);
+    background-image:         radial-gradient(50% 50%, ellipse closest-side, #53B8EB, 50%);
+}
+
+section#end #container h1
+{
+    text-transform:uppercase;
+    font-family:Verdana;
+    margin-top:25%;
+    color:white;
+    font-size: 2.5em;
+    font-weight: bold;
+    display:inline-block;
+    padding-right:1%;
+}
+
+section#end #container img
+{
+    vertical-align: -120%;
+}
+
+/* ### */
+
+section#home.noDisplay{
+    opacity: 0;
+    display: none;   
+}
+
+section#jeu.noDisplay{
+    opacity: 0;
+    display: none;   
+}
+
+section#end.noDisplay{
+    opacity: 0;
+    display: none;   
+}
+
+@keyframes anim1 {
+    0%{
+        transform: rotate(5deg) translate(0px,0);
+    }
+    50% {
+        transform: rotate(-5deg) translate(40px,0);
+    }
+    100% {
+        transform: rotate(5deg) translate(0px,0);
+    }
+
+}
+
+@keyframes anim2 {
+    0%{
+        transform: rotate(-5deg) translate(0px,0);
+    }
+    50% {
+        transform: rotate(5deg) translate(40px,0);
+    }
+    100% {
+        transform: rotate(-5deg) translate(0px,0);
+    }
+
+}
+
+@keyframes anim3 {
+    0%{
+        transform: rotate(5deg) translate(0px,0);
+    }
+    50% {
+        transform: rotate(-5deg) translate(-40px,0);
+    }
+    100% {
+        transform: rotate(5deg) translate(0px,0);
+    }
+
+}
+
+@keyframes anim4 {
+    0%{
+        transform: rotate(-5deg) translate(0px,0);
+    }
+    50% {
+        transform: rotate(5deg) translate(-40px,0);
+    }
+    100% {
+        transform: rotate(-5deg) translate(0px,0);
+    }
+
+}
+
+
+@-webkit-keyframes anim1 {
+    0%{
+        -webkit-transform: rotate(5deg) translate(0px,0);
+    }
+    50% {
+        -webkit-transform: rotate(-5deg) translate(40px,0);
+    }
+    100% {
+        -webkit-transform: rotate(5deg) translate(0px,0);
+    }
+
+}
+
+@-webkit-keyframes anim2 {
+    0%{
+        -webkit-transform: rotate(-5deg) translate(0px,0);
+    }
+    50% {
+        -webkit-transform: rotate(5deg) translate(40px,0);
+    }
+    100% {
+        -webkit-transform: rotate(-5deg) translate(0px,0);
+    }
+
+}
+
+@-webkit-keyframes anim3 {
+    0%{
+        -webkit-transform: rotate(5deg) translate(0px,0);
+    }
+    50% {
+        -webkit-transform: rotate(-5deg) translate(-40px,0);
+    }
+    100% {
+        -webkit-transform: rotate(5deg) translate(0px,0);
+    }
+
+}
+
+@-webkit-keyframes anim4 {
+    0%{
+        -webkit-transform: rotate(-5deg) translate(0px,0);
+    }
+    50% {
+        -webkit-transform: rotate(5deg) translate(-40px,0);
+    }
+    100% {
+        -webkit-transform: rotate(-5deg) translate(0px,0);
+    }
+
+}
+
+@keyframes anim_baf {
+    0% {
+    transform: scale(1);
+    }
+    10% {
+    transform: scale(0.9);
+    }
+    90% {
+    transform: scale(0.9);
+    }
+    100% {
+    transform: scale(1);
+    }
+}
+
+@-webkit-keyframes anim_baf {
+    0% {
+    -webkit-transform: scale(1);
+    }
+    10% {
+    -webkit-transform: scale(0.9);
+    }
+    90% {
+    -webkit-transform: scale(0.9);
+    }
+    100% {
+    -webkit-transform: scale(1);
+    }
+}

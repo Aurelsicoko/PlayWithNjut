@@ -3,171 +3,100 @@
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <title>Hello World</title>
-		
-		<link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/index.css">
+        <title>Play With Njut!</title>
     </head>
-    <style>
-    html,body{
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-
-    body{
-        background-image: url('img/decor1.png');
-        background-size: cover;
-    }
-
-    video, canvas {
-        width: 100%;
-        height: auto;
-        background: #eee;
-        z-index: -1;
-    }
-
-    video{
-        width: 0;
-        height: 0;
-    }
-
-    canvas {
-        background-color: transparent;
-        background-size: 90%;
-        background-position: center center;
-        transition: all 1s linear;
-        -webkit-transition: all 1s linear;
-    }
-
-    audio{
-        opacity: 0;
-    }
-
-    section{
-        z-index: 1;
-    }
-
-    #qrcode, #end{
-        position: absolute;
-        top: 5vh;
-        left: 42vw;
-        width: 15vw;
-        height: 15vh;
-        transition: all 1s linear;
-        -webkit-transition: all 1s linear;
-        
-    }
-
-    #qrcode img{
-        width: 15vw;
-        height: 15vw;
-    }
-
-
-
-    .noDisplay{
-        opacity: 0;
-        display: none;
-         transition: all 1s linear;
-        -webkit-transition: all 1s linear;
-    }
-
-    .animated{-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;}.animated.hinge{-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;}
-
-    @-webkit-keyframes fadeInDownBig {
-        0% {
-            opacity: 0;
-            -webkit-transform: translateY(-2000px);
-        }   100% {
-            opacity: 1;
-            -webkit-transform: translateY(0);
-        }
-    }
-
-    @-moz-keyframes fadeInDownBig {
-        0% {
-            opacity: 0;
-            -moz-transform: translateY(-2000px);
-        }
-        
-        100% {
-            opacity: 1;
-            -moz-transform: translateY(0);
-        }
-    }
-
-    @-o-keyframes fadeInDownBig {
-        0% {
-            opacity: 0;
-            -o-transform: translateY(-2000px);
-        }
-        
-        100% {
-            opacity: 1;
-            -o-transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInDownBig {
-        0% {
-            opacity: 0;
-            transform: translateY(-2000px);
-        }
-        
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .fadeInDownBig {
-        -webkit-animation-name: fadeInDownBig;
-        -moz-animation-name: fadeInDownBig;
-        -o-animation-name: fadeInDownBig;
-        animation-name: fadeInDownBig;
-    }
-
-
-
-    </style>
     <body>
-        <section id="home"></section>
-        <section id="qrcode"></section>
-        <section id="end">Merci d'avoir participer, nouvelle partie dans 5 secondes</section>
-        <audio id="player" src=""></audio>
-        <video id="v" width="1000" height="800"></video>
-        <canvas id="c" width="1000" height="800">
+        <section id="home">
+            <video autoplay loop muted preload="metadata">
+                <source src="./videos/video_essai.mp4" type="video/mp4">
+            </video>
+            <div class="content">
+                <img id="logo"src="img/logo.png" alt="logo"/>
+                <h1 class="normal">Créez votre musique en utilisant</h1>
+                <h1 class="gras">les objets du quotidien !</h1>
+                <div id="scan">
+                    <h2>Scannez pour commencer l'expérience</h2>
+                    <div id="qrcode"></div>
+                </div>      
+            </div>
+        </section>
+        
+        <section id="end">
+            <div id="container">
+                <h1>Merci d'avoir joué avec</h1>
+                <img id="logo"src="img/njut_seul.png" alt="logo"/>
+            </div>
+            <audio id="playerEnd" src="sounds/njut_ikea.mp3"></audio>    
+        </section>
+
+        <section id="jeu">
+            <section class="baf">
+                <div id="baf_droite">
+                    <img src="img/baf_droite_haut.png" />
+                    <img src="img/baf_droite_centre.png" />
+                    <img src="img/baf_droite_bas.png" />
+                </div>
+
+                <div id="baf_gauche" >
+                    <img src="img/baf_gauche_haut.png" />
+                    <img src="img/baf_gauche_centre.png" />
+                    <img src="img/baf_gauche_bas.png" />
+                </div>
+            </section>    
+            <section class="foule">
+                <div>
+                    <img class="a" src="img/perso1.png" />
+                    <img class="b" src="img/perso2.png" />
+                    <img class="a" src="img/perso3.png" />
+                    <img class="c" src="img/perso4.png" />
+                    <img class="b" src="img/perso5.png" />
+                </div>
+
+                <div id="decal">
+                    <img class="c" src="img/perso4.png" />
+                    <img class="d" src="img/perso5.png" />
+                    <img class="b" src="img/perso1.png" />
+                    <img class="d" src="img/perso2.png" />
+                    <img class="a" src="img/perso3.png" />
+                </div>
+            </section>    
+
+            <audio id="player" src=""></audio>
+            <video id="v" width="1000" height="700"></video>
+            <canvas id="c" width="1000" style="z-index:2" height="700"></canvas>
+            <div id="listimg"></div>
+        </section>        
 
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>   
         <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script> 
-        <script type="text/javascript" src="http://aurelien-georget.local:1337/socket.io/socket.io.js"></script>
-        <script src="js/player.js"></script>  
-        <script src="js/qrcode.min.js"></script> 
-        <script src="js/greenBackground.js"></script> 
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script src="/js/player.js"></script>  
+        <script src="/js/qrcode.min.js"></script> 
+        <script src="/js/greenBackground.js"></script> 
         <script type="text/javascript">
 
-            var place;
+            var place, playing, nbUser = 0;
 
             /* HTML Elements */
             var home = $('#home');
             var endSection = $('#end');
             var qrCodeSection = $('#qrcode');
             var canvas = $('canvas');
+            var jeuSection = $('#jeu');
 
             /* CSS */
-            $(home).addClass("noDisplay");
+            $(jeuSection).addClass('noDisplay');
             $(endSection).addClass("noDisplay");
-            $(canvas).addClass("noDisplay");
 
 
             /* Génération d'un QRCode pour accéder aux instruments sur mobile */
             var qrcode = new QRCode("qrcode");
-            qrcode.makeCode("http://aurelien-georget.local/maorie/controller.html");
+            qrcode.makeCode("http://"+window.location.host+"/controller.html");
 
             /* Connexion au flux de socket */
-            var socket = io.connect('http://aurelien-georget.local:1337/'); 
+            var socket = io.connect(); 
 
             /* On se connecte à la partie */
             socket.emit('connect', 'index');
@@ -180,9 +109,10 @@
 
             /* Initialisation du player audio général */
             player.init({
-                file: 'http://cdn-preview-d.deezer.com/stream/d8a28a7c28ab3f2a6b516d2e5eb2a33d-0.mp3',
+                file: '',
                 initied : function(){
                     console.log("initied");
+                    randMusic();                    
                 },
                 loaded : function(){
                     console.log("loaded");
@@ -196,55 +126,132 @@
                 },
                 ended : function(){
                     console.log("Terminé");
+                    playing = false;
                     socket.emit('end');
 
                     stopStream(); // On arrête la webcam
-                    $(canvas).addClass("noDisplay"); // On cache l'environnement
-
+                    $(jeuSection).addClass("noDisplay"); // On cache l'environnement de jeu
+                    $('#playerEnd')[0].play();
                     $(endSection).removeClass().addClass("fadeInDownBig").addClass("animated"); // On affiche la fin de la partie
 
 
                     setTimeout(function(){
-                        $('audio:not(#player)').remove();
+                        $('#playerEnd').animate({volume: 0}, 2000, function(){
+                            $('#playerEnd')[0].pause();
+                            $('#playerEnd').currentTime = 0;
+                        });
+                        
+                        nbUser = 0;
+                        playing = true;
+                        socket.emit("playing", playing);
+                        randMusic();
+                        $('audio:not(#player, #playerEnd)').remove();
+                        $(jeuSection).removeClass().addClass('noDisplay');
                         $(endSection).removeClass().addClass("noDisplay");
-                        $(qrCodeSection).removeClass().addClass("fadeInDownBig").addClass("animated");
-                    }, 5000);
+                        $(home).removeClass().addClass("fadeInDownBig").addClass("animated");
+                    }, 9000);
                 }
             });
 
             /* On est bien connecté à la partie */
             socket.on('connected', function(){
-                
-                $(qrCodeSection).removeClass().addClass("noDisplay");
-
-                initialize(function(){
-                    $(canvas).removeClass(); // On affiche l'environnement
-                    player.load(); // On lance le player
-                });    
+                console.log("Connexion réussi avec le serveur");  
             });
 
+            /* Un utilisateur arrive */
             socket.on('newUser', function(data){
+
+                if(nbUser == 0){
+
+                    $(home).removeClass().addClass("noDisplay"); // On cache la section home
+
+                    initialize(function(){
+                        $(canvas).addClass("noDisplay");
+                        $(jeuSection).removeClass(); // On affiche l'environnement de jeu
+                        player.load(); // On lance le player
+                        playing = true;
+                        socket.emit("playing", playing);
+                    });
+                }
+                
+                nbUser++;
+
                 theId = data.id;
                 theInstrument = data.instrument.toLowerCase();
 
                 /* Création de player audio à la volée pour chaque utilisateur */
                 var ifAudioPlayer = $('audio[id='+theId+']').length;
-                if(ifAudioPlayer == 0)
-                    $('body').append("<audio id='"+theId+"' src='sounds/"+theInstrument+".mp3'></audio>");
+                if(ifAudioPlayer == 0){
+                    $('body').append("<audio class='"+theId+"' src='sounds/"+theInstrument+".mp3'></audio>");
+                    $('body').append("<audio class='"+theId+"' src='sounds/"+theInstrument+".mp3'></audio>");
+                }    
             });
 
 
             socket.on('clicked', function(data){
                 theId = data.id;
                 theInstrument = data.instrument.toLowerCase();
+                
+                var playerAudioOne = $('audio[class='+theId+']')[0];
+                //var playerAudioTwo = $('audio[class='+theId+']')[1];
+                playerAudioOne.currentTime = 0;
+                playerAudioOne.play();
 
-                /* /!\ A AMELIORER /!\ */
-                //$('audio[id='+theId+']')[0].currentTime = 0; // A chaque fois que l'utilisateur joue, on remet son son à 0
-                //$('audio[id='+theId+']')[0].play(); // Et on le joue
+
+                /* /!\ A AMELIORER /!\ 
+                if(playerAudioOne.currentTime == 0){
+                    console.log("Player 1");
+                    $(playerAudioTwo).animate({volume: 0}, 500);
+                    playerAudioOne.volume = 1;
+                    //playerAudioOne.currentTime = 0; // A chaque fois que l'utilisateur joue, on remet son son à 0
+                    playerAudioOne.play(); // Et on le joue
+                }
+                else{
+                    console.log("Player 2");
+                    $(playerAudioOne).animate({volume: 0}, 500);
+                    playerAudioTwo.volume = 1;
+                    playerAudioTwo.play();
+                }*/
+                
 
                 console.log("On joue "+theInstrument);
             });
 
+            socket.on('photo', function(photo) {
+                /* Récupération taille de la fenêtre */
+                var clientWidth = $(document).width();
+                /* Création d'une div à la volée contenant l'avatar du membre qui a twittés */
+                $('#listimg').append('<div><img src="'+photo+'" /></div>');
+
+                var theDiv = $('#listimg div:last-of-type');
+                /* Calcul du nombre aléatoire pour déterminer la position du pin */
+                var divWidth = $(theDiv).width();
+                var posX = Math.floor(Math.random() * (clientWidth-divWidth)) + divWidth;
+                /* Positionnement du pin */
+                $('#listimg div:last-of-type').css({left:posX});
+                /* Mise en place de la disparition du pin après 5s */
+                var self = $('#listimg div:last-of-type');
+                setTimeout(function(){
+                    $(self).fadeOut(500, function(){
+                        $(this).remove();
+                    });
+                }, 5000);
+            });
+
+            function randMusic(){
+                $.getJSON("/js/musics.json", function(data){
+                    var nb = Math.floor(Math.random() * 3);
+                    var i = 0;
+                    $.each(data, function(key,val){
+                        if(i == nb)
+                            player.setFile('sounds/'+val.title+'.mp3');
+
+                        i++;
+                    });
+                }); 
+            }
+
         </script>
+        <script src="/js/fullscreen.js"></script>
     </body>
 </html>

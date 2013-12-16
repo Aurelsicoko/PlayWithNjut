@@ -1,15 +1,77 @@
-var http = require('http')
-  , server = http.createServer()
-  , io = require('socket.io').listen(server);
+/* Express 3 requires that you instantiate a `http.Server` to attach socket.io to first */
+var http = require('http');
+var fs = require('fs');
+var Twit = require('twit');
 
-server.listen(1337);
+var app = require('express')(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server),
+    port = 8080,
+    url  = 'http://localhost:' + port + '/';
+    
+
+if(process.env.SUBDOMAIN){
+  url = 'http://' + process.env.SUBDOMAIN + '.jit.su/';
+}
+
+server.listen(port);
+console.log("Express server listening on port " + port);
+console.log(url);
+
+app.get('/', function (req, res) {
+    res.sendfile(__dirname + '/index.html');
+});
+
+app.get('/:id.html', function (req, res) {
+  res.sendfile(__dirname + '/'+req.params.id+'.html');
+});
+
+app.get('/css/:id', function (req, res) {
+  res.sendfile(__dirname + '/css/'+req.params.id);
+});
+
+app.get('/js/:id.js', function (req, res) {
+  res.sendfile(__dirname + '/js/'+req.params.id+'.js');
+});
+
+app.get('/js/:id.json', function (req, res) {
+  res.sendfile(__dirname + '/js/'+req.params.id+'.json');
+});
+
+app.get('/videos/:id', function (req, res) {
+  res.sendfile(__dirname + '/videos/'+req.params.id);
+});
+
+app.get('/sounds/:id', function (req, res) {
+  res.sendfile(__dirname + '/sounds/'+req.params.id);
+});
+
+app.get('/socket.io/socket.io.js', function (req, res) {
+  res.sendfile(__dirname + '/socket.io/socket.io.js');
+});
+
+app.get('/img/:id', function (req, res) {
+  res.sendfile(__dirname + '/img/'+req.params.id);
+});
 
 var theInstruments = new Array();
 var theIdUsers = new Array();
 var thePlace = null;
 var thePlaces = null;
+var theBg = null;
 
 var limitUsers = 5;
+
+var playing = false;
+
+var T = new Twit({
+    consumer_key: 'eDyJgaWesnpS1OSAh7wlDg',
+    consumer_secret: 'O1xlcU8F41Nz5hxFVmpdOzTn6o786ZnipGY9dKH00',
+    access_token: '323905773-VpsZ0bmMFzbKfO1MaGTYXzdBUOxTqjgJwA4tyZAC',
+    access_token_secret: 'whf6N0tqiZx91JqZhUvPMpNFOQw162R8jzjZwWR18gWnz'
+});
+
+var stream=T.stream('statuses/filter', {track: '#apple'});
 
 io.sockets.on('connection', function (socket) {
 
@@ -17,25 +79,33 @@ io.sockets.on('connection', function (socket) {
     socket.on('connect', function(who){
         console.log(who+" : I'm connected!");
 
-        /* Quand un utilisateur est détecté, on va chercher l'ensemble des lieux */
-        if(thePlace == null){
-            randPlace();
+        if(who == "index"){
+            thePlace = null;
+            restart();
+            socket.broadcast.emit('thanks');  // On renvoie un merci
+        }    
+
+        if(playing == true){
+            /* Quand le premier instrument se connecte, ça lance la musique  */
+            if(who == "instrument" && theInstruments.length == 0){
+                socket.emit('connected', {place:thePlace, bg:theBg}); // On renvoie à l'utilisateur le lieu
+                socket.broadcast.emit('connected', {place:thePlace, bg:theBg}); // On envoie à l'index qu'on a un utilisateur
+            }    
+            else if(who != "index"){
+                 if(theIdUsers.length+1 <= 5){
+                    socket.emit('connected', {place:thePlace, bg:theBg});
+                 }
+                 else{
+                    console.log("Sorry 1");
+                    socket.emit("sorry");
+                 }
+            }
         }
 
-        /* Quand le premier instrument se connecte, ça lance la musique  */
-        if(who == "instrument" && theInstruments.length == 0){
-            socket.emit('connected', thePlace); // On renvoie à l'utilisateur le lieu
-            socket.broadcast.emit('connected', thePlace); // On envoie à l'index qu'on a un utilisateur
-        }    
-        else if(who != "index"){
-             if(theIdUsers.length+1 <= 5){
-                socket.emit('connected', thePlace);
-             }
-             else{
-                socket.emit("sorry");
-             }
+        if(who == "index"){
+            console.log("playing true");
+            playing = true;
         }
-            
     });
 
     /* L'utilisateur a choisi un instrument */
@@ -73,22 +143,18 @@ io.sockets.on('connection', function (socket) {
 
     /* Fin d'une partie */
     socket.on('end', function(){
-
-        /* On remet tout à zéro pour accueillir une nouvelle partie */
-        theInstruments = null;
-        theInstruments =  new Array();
-
-        theIdUsers = null;
-        theIdUsers = new Array();
-
-        randPlace();
-        
+        restart();
         socket.broadcast.emit('thanks');  // On renvoie un merci
     });
 
     socket.on('goOut', function(){
         socket.idUser = undefined;
     })
+
+    socket.on('playing', function(data){
+        playing = data;
+        console.log("playing "+playing);
+    });
 
     /* Déconnection d'un utilisateur */
     socket.on('disconnect', function(){
@@ -104,9 +170,28 @@ io.sockets.on('connection', function (socket) {
         console.log(msg);
     });
 
+    stream.on('tweet', function(tweet){
+        socket.emit('photo', tweet.user.profile_image_url.replace('http', 'https'));
+    });
+
+    /* On remet tout à zéro pour accueillir une nouvelle partie */
+    function restart(){
+
+        theInstruments = null;
+        theInstruments =  new Array();
+
+        theIdUsers = null;
+        theIdUsers = new Array();
+
+        randPlace();
+        playing = false;
+        console.log("playing false");
+    }
+
     function randPlace(){
         var places = new Array();
-        var url = 'http://aurelien-georget.local/maorie/js/places.json';
+        var bgs = new Array();
+        var url = 'http://aurelien.georget.jit.su/js/places.json';
 
         http.get(url, function(res) {
             var output = '';
@@ -121,10 +206,13 @@ io.sockets.on('connection', function (socket) {
 
                 for(var k in response) {
                     places.push(k);
+                    bgs.push(response[k].bg);
                 }
 
                 /* Sélection aléatoire d'un fond */
-                thePlace = places[Math.floor(Math.random()*places.length)];
+                var nb = Math.floor(Math.random()*places.length);
+                thePlace = places[nb];
+                theBg = bgs[nb];
                 socket.emit("place", thePlace); // Envoie du fond choisi à la fenêtre principale
             });
         }).on('error', function(e) {

@@ -4,262 +4,166 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/controller.css">
         <title>Hello World</title>
-		
-		<link rel="stylesheet" href="css/style.css">
     </head>
-    <style>
-    html, body{
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        color: white;
-        background-color: black;
-    }
-
-    ul{
-        margin: 0;
-        padding: 0;
-    }
-
-    li{
-        width: 100%;
-        opacity: 1;
-        display: inline-block;
-        text-align: center;
-        list-style-type: none;
-        -webkit-animation: all .6s ease;
-    }
-
-    li img{
-        width: 100%;
-        outline: none;
-    }
-
-    img{
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    section{
-        display: none;
-        width: 100%;
-        height: 100%;
-    }
-
-    section.instrument img{
-        position: absolute;
-    }
-
-    .noDisplay{
-        opacity: 0;
-        display: none;
-        
-    }
-
-    .animated{
-        -webkit-animation-fill-mode:both;
-        -moz-animation-fill-mode:both;
-        -ms-animation-fill-mode:both;
-        -o-animation-fill-mode:both;
-        animation-fill-mode:both;
-        -webkit-animation-duration:.4s;
-        -moz-animation-duration:.4s;
-        -ms-animation-duration:.4s;
-        -o-animation-duration:.4s;
-        animation-duration:.4s;
-    }
-
-
-    @-webkit-keyframes slideInLeft {
-        0% {
-            opacity: 0;
-            -webkit-transform: translateX(-2000px);
-        }   100% {
-            -webkit-transform: translateX(0);
-        }
-    }
-
-    @keyframes slideInLeft {
-        0% {
-            opacity: 0;
-            transform: translateX(-2000px);
-        }
-        
-        100% {
-            transform: translateX(0);
-        }
-    }
-
-    .slideInLeft {
-        -webkit-animation-name: slideInLeft;
-        -moz-animation-name: slideInLeft;
-        -o-animation-name: slideInLeft;
-        animation-name: slideInLeft;
-    }
-
-    @-webkit-keyframes slideInRight {
-        0% {
-            opacity: 0;
-            -webkit-transform: translateX(2000px);
-        }
-        
-        100% {
-            -webkit-transform: translateX(0);
-        }
-    }
-
-    @keyframes slideInRight {
-        0% {
-            opacity: 0;
-            transform: translateX(2000px);
-        }
-        
-        100% {
-            transform: translateX(0);
-        }
-    }
-
-    .slideInRight {
-        -webkit-animation-name: slideInRight;
-        -moz-animation-name: slideInRight;
-        -o-animation-name: slideInRight;
-        animation-name: slideInRight;
-    }
-
-    @keyframes slideOutLeft {
-        0% {
-            transform: translateX(0);
-        }
-        
-        100% {
-            opacity: 0;
-            display: none;
-            transform: translateX(-2000px);
-        }
-    }
-
-    .slideOutLeft {
-        -webkit-animation-name: slideOutLeft;
-        -moz-animation-name: slideOutLeft;
-        -o-animation-name: slideOutLeft;
-        animation-name: slideOutLeft;
-    }
-
-    @-webkit-keyframes slideOutRight {
-        0% {
-            -webkit-transform: translateX(0);
-        }
-        
-        100% {
-            opacity: 0;
-            -webkit-transform: translateX(2000px);
-        }
-    }
-
-    @keyframes slideOutRight {
-        0% {
-            transform: translateX(0);
-        }
-        
-        100% {
-            opacity: 0;
-            transform: translateX(2000px);
-        }
-    }
-
-    .slideOutRight {
-        -webkit-animation-name: slideOutRight;
-        -moz-animation-name: slideOutRight;
-        -o-animation-name: slideOutRight;
-        animation-name: slideOutRight;
-    }
-
-    </style>
     <body>
-	<div id="intro">
-	<p>Choisissez votre instrument en touchant les flèches</p>
-	</div>
-        <ul>
-            
-        </ul>    
+        <section class="choose">
+            <h1 class="logo">play with <img src="img/njut_seul.png" /></h1>
+            <p class="consigne">Choisissez un instrument</p>
+            <ul>
+                
+            </ul>
+            <img src="img/explain_swipe.gif" />
+            <button type="button" title="commencer">Commencer</button>
+            <p>Chargement des instruments...</p>
+        </section>
+        <section class="instruction">
+            <p class="consigne"></p>
+            <ul>
+
+            </ul>
+        </section>
         <section class="instrument">
 
         </section>
-	<div id="commencer">
-	<button type="button" title="commencer">Commencer</button>
-	</div>
-
+        <section class="end">
+            <p>Merci d'avoir joué avec</p><br>
+            <img src="img/njut_seul.png" />
+        </section>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>        
-        <script type="text/javascript" src="http://aurelien-georget.local:1337/socket.io/socket.io.js"></script>
-        <script src="js/shake.js"></script>
-        <script src="js/touchSwipe.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script src="/js/shake.js"></script>
+        <script src="/js/touchSwipe.js"></script>
         <script type="text/javascript">
 
-            var socket = io.connect('http://aurelien-georget.local:1337/');
+            var socket = io.connect();
             var myId;
             var clientWidth = $(document).width();
             var myInstrument, myMvt, thePlace;
+            var chooseHtml = $('section.choose');
+            var instructionHtml = $('section.instruction');
+            var instrumentHtml = $('section.instrument');
+            var endHtml = $('section.end');
+            var bg;
+
+            /* CSS */
+            $(chooseHtml).show();
+            $(chooseHtml).find('*:not(p:last-of-type)').addClass('noDisplay');
+            $('body').addClass('bg');
+            
 
             /* Nous connectes à l'écran principal */
             socket.emit('connect', 'instrument');
 
+            /* Récupération de son id */
+            socket.on('myId', function(data){
+                myId = data;
+            });
+
+            /* Le serveur renvoit une erreur car la partie est pleine */
+            socket.on('sorry', function(){
+                $(chooseHtml).html('<p>Désolé la partie est pleine !</p>');
+            });
+
             /* On est bien connecté */
             socket.on('connected', function(data){
-                thePlace = data;
+                console.log(data);
+                thePlace = data.place;
+                bg = data.bg;
+
+                /* Changement du background en fonction de la pièce */
+                $('body').css({"background-color":bg}); // METTRE EN CLASS
+
+                /* Création d'un cercle responsive */
+                drawCircle();
+                $(window).resize(drawCircle);
+                    
+                
 
                  /* On génère les instruments de la pièce */
-                $.getJSON("js/instruments.json", function(data){
+                $.getJSON("/js/instruments.json", function(data){
                     var i=0;
+                    var ul = $('section.choose ul');
                     $.each(data, function(key,val){
                         if(val.place == thePlace){
-                            $('ul').append("<li class='noDisplay'><img src='img/"+key+".svg' title='"+key+"' alt='"+i+"' /></li>");
+                            $(ul).append("<li class='noDisplay'><img src='img/"+key+".png' title='"+key+"' class=\""+val.title+"\" alt='"+i+"' /></li>");
+                            
+                            if(i==0)
+                                 $('section.choose button').text('Jouer '+val.title);
+
                             i++;
                         }
                         
                     });
 
-                    var li = $('ul>li');
+                    var li = $('section.choose ul>li');
                     for(var i=0; i<li.length; i++){
                         if(i==0)
                             $(li[i]).removeClass();
                     }
 
-                    $('ul>li').swipe({
+                    /* Lorsque les images sont chargés, il peut choisir */
+                    $(chooseHtml).find('img').load(function(){
+                        $(chooseHtml).find('*:not(p:last-of-type)').removeClass('noDisplay');
+                        $(chooseHtml).find('p:last-of-type').hide();
+                        $(chooseHtml).find('ul').addClass('loaded');
+                    });
+                    
+                    /* Sélection d'un instrument avec swipe */
+                    $('section.choose ul>li:not(img)').swipe({
                         swipe:function(event, direction, distance, duration, fingerCount) {
-                            var li = $('ul>li'), animationNext, animationPrec;
+                            event.preventDefault();
+                            var li = $('section.choose ul>li'), animationNext, animationPrec, go = 0;
+                            var img = $(event.target).find('img')[0];
 
                             if(direction == "left"){
                                 animationNext = "slideInRight";
                                 animationPrec = "slideOutLeft";
+
+                                if(parseInt($(img).attr('alt')) == li.length-1){
+                                    go = 0;
+                                    var text = $('section.choose ul>li img[alt=0]').attr("class");
+                                    if(text != undefined)
+                                        $('section.choose button').text('Jouer '+text);
+                                }    
+                                else{
+                                    go = 1;
+                                    var text = $('section.choose ul>li img[alt='+(parseInt($(img).attr('alt'))+go)+']').attr("class");
+                                    if(text != undefined)
+                                        $('section.choose button').text('Jouer '+text);
+                                }    
                             }
                             else{
                                 animationNext = "slideInLeft";
                                 animationPrec = "slideOutRight";
+
+                                if(parseInt($(img).attr('alt')) == 0){
+                                    go = li.length-1;
+                                    var text = $('section.choose ul>li:last-of-type img').attr("class");
+                                    if(text != undefined)
+                                        $('section.choose button').text('Jouer '+text);
+                                }   
+                                else{
+                                    go = -1;
+                                    var text = $('section.choose ul>li img[alt='+(parseInt($(img).attr('alt'))+go)+']').attr("class");
+                                    if(text != undefined)
+                                        $('section.choose button').text('Jouer '+text);
+                                }    
                             }
                                 
 
-                            $('ul>li img[alt='+event.target.alt+']').parent().removeClass().addClass(animationPrec).addClass("noDisplay");
+                            $('section.choose ul>li img[alt='+$(img).attr('alt')+']').parent().removeClass().addClass(animationPrec).addClass("noDisplay");
 
-                            if(li.length-1 == parseInt(event.target.alt))
-                                $('ul>li img[alt=0]').parent().removeClass().addClass(animationNext).addClass("animated");
+                            if(go == 0)
+                                $('section.choose ul>li img[alt=0]').parent().removeClass().addClass(animationNext).addClass("animated");
                             else    
-                                $('ul>li img[alt='+(parseInt(event.target.alt)+1)+']').parent().removeClass().addClass(animationNext).addClass("animated");
+                                $('section.choose ul>li img[alt='+(parseInt($(img).attr('alt'))+go)+']').parent().removeClass().addClass(animationNext).addClass("animated");
                         },
-                        threshold: 75
+                        threshold: 10
                     });  
-                });
-
-                /* Récupération de son id */
-                socket.on('myId', function(data){
-                    myId = data;
-                });
-
-                /* Le serveur renvoit une erreur car la partie est pleine */
-                socket.on('sorry', function(){
-                    document.write("Désolé la partie est pleine!");
                 });
 
                 /* Fin de la partie, on redirige le joueur */
@@ -276,20 +180,22 @@
 
                     /* On renvoie au serveur qu'on veut se déconnecter */
                     socket.emit('goOut');
-                    document.write("Merci d'avoir joué!");
+                    $(instructionHtml).hide();
+                    $(chooseHtml).hide();
+                    $(instrumentHtml).hide();
+                    $('body').removeClass().addClass('bg');
+                    $(endHtml).show("fast");
                 })
 
                 /* Sélection de son instrument */
-                $('ul').on('vclick', 'li img', function(e){
+                $('section.choose button').on('vclick', function(e){
 
+                    e.currentTarget = $("section.choose li:not(.noDisplay) img")[0];
                     myInstrument = e.currentTarget.title.toLowerCase(); // On passe en minuscule le nom de l'instrument
                     socket.emit("chooseInstrument", e.currentTarget.title); // Envoie au serveur de l'instrument choisi
 
-                    $('ul').hide(); // On cache la sélection des instruments
-                    $('section.instrument').html('<img src="'+e.currentTarget.src+'" />').show(); // On affiche son instrument
-
                     /* On va chercher le mouvement de l'instrument */
-                    $.getJSON("js/instruments.json", function(data){
+                    $.getJSON("/js/instruments.json", function(data){
                         $.each(data, function(key,val){
                             if(myInstrument == key)
                                 myMvt = val.evt;
@@ -303,6 +209,7 @@
                                 
                                 window.addEventListener('shake', function(){
                                     socket.emit("click", myId);
+
                                 }, false);
                             } 
                             else{
@@ -335,9 +242,40 @@
                             });
                         }
 
+                        var text;
+
+                        if(myMvt == "swipe")
+                            text = "Faites glisser votre doigt de gauche à droite pour produire un son";
+                        else if(myMvt == "shake")
+                            text = "Secouez l’écran pour produire un son";
+                        else
+                            text = "Touchez l’écran pour produire un son";
+
+                        $('body').removeClass().addClass(bg);
+                        $(chooseHtml).hide("fast"); // On cache la sélection des instruments
+                        $(instructionHtml).find('p').html(text);
+                        $(instructionHtml).find('ul').html('<img src="img/'+myMvt+'.png" />');
+                        $(instructionHtml).show("fast"); // On affiche les instructios
+                            
+
+                        /* On laisse le joueur joué */
+                        setTimeout(function(){
+                            $(instructionHtml).hide("fast");
+                                
+                            $('section.instrument').html('<img src="'+e.currentTarget.src+'" />').show("fast"); // On affiche son instrument
+                        }, 7500);
+
                     });
                 });           
-            });          
+            });   
+
+            function drawCircle(){
+                var window70 = $(window).height()*0.5;
+
+                var diametre = window70;
+
+                $(chooseHtml).find('ul').css({"border-radius":diametre+"px", "height":diametre+"px", "width" : diametre+"px"}).addClass(bg);
+            }       
         </script>
     </body>
 </html>
