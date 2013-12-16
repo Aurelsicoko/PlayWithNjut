@@ -40,7 +40,7 @@ width:100%;
 height:15%;
 }
 
-#instrument
+.instrument
 {
 position:relative;
 display:block;
@@ -84,63 +84,6 @@ button {
     text-decoration: none;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     vertical-align: baseline;
-}
-
-
-/*images et fleches*/
-.instru
-{
-	position:relative;
-	width:80%;
-	height:100%;
-	float:left;
-	display:block;
-}
-.cache
-{
-	display:none;
-    opacity:0;
-}
-
-.instru img
-{
-	width:100%;
-}
-
-.fleche
-{
-	display:block;
-	position:relative;
-	width:10%;
-	font-size:20px;
-	font-weight:bold;
-	text-align:center;
-	height:50%;
-	padding-top:50%;
-	float:left;
-}
-
-/*instrument seul sélectionné*/
-
-#instru
-{
-	position:relative;
-	width:100%;
-	height:100%;
-	float:left;
-	display:block;
-}
-
-#instru img
-{
-	position:relative;
-	display:block;
-	width:80%;
-	margin:auto;
-	-webkit-transition: all 1s linear;
-	-moz-transition: all 1s linear;
-	-o-transition: all 1s linear;
-	transition: all 1s linear;
 }
 
 }
