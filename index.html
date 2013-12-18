@@ -27,7 +27,7 @@
                 <h1>Merci d'avoir joué avec</h1>
                 <img id="logo"src="img/njut_seul.png" alt="logo"/>
             </div>
-            <audio id="playerEnd" src="sounds/njut_ikea.mp3"></audio>    
+            <audio id="playerEnd" src=""></audio>    
         </section>
 
         <section id="jeu">
@@ -77,19 +77,36 @@
         <script src="/js/greenBackground.js"></script> 
         <script type="text/javascript">
 
-            var place, playing, nbUser = 0;
+            /* Audio player pour Twitter */
+            var audio = new Audio();
+            audio.src = "sounds/applause_tweet.mp3";
+            audio.volume = 0.2;
+
+            var ikeaSong = new Audio();
+            ikeaSong.src = "sounds/njut_ikea.mp3";
+
+            /* User params */
+            var userParam = {
+                place : null,
+                playing : null,
+                nbUser : 0,
+                theId : null,
+                theInstrument : null
+            };
 
             /* HTML Elements */
-            var home = $('#home');
-            var endSection = $('#end');
-            var qrCodeSection = $('#qrcode');
-            var canvas = $('canvas');
-            var jeuSection = $('#jeu');
+            var htmlElement = {
+                home : $('#home'),
+                endSection : $('#end'),
+                qrCodeSection : $('#qrcode'),
+                canvas : $('canvas'),
+                jeuSection : $("#jeu"),
+                playerEnd : $('#playerEnd')
+            };
 
             /* CSS */
-            $(jeuSection).addClass('noDisplay');
-            $(endSection).addClass("noDisplay");
-
+            $(htmlElement.jeuSection).addClass('noDisplay');
+            $(htmlElement.endSection).addClass("noDisplay");
 
             /* Génération d'un QRCode pour accéder aux instruments sur mobile */
             var qrcode = new QRCode("qrcode");
@@ -104,7 +121,8 @@
             /* On récupère le lieu pour changer le background */
             socket.on('place', function(data){
                 console.log("Lieu : "+data);
-                place = data;
+                userParam.place = data;
+                socket.emit("playing", true);
             });
 
             /* Initialisation du player audio général */
@@ -126,29 +144,31 @@
                 },
                 ended : function(){
                     console.log("Terminé");
-                    playing = false;
                     socket.emit('end');
 
+                    audio.pause();
+                    ikeaSong.play();
                     stopStream(); // On arrête la webcam
-                    $(jeuSection).addClass("noDisplay"); // On cache l'environnement de jeu
-                    $('#playerEnd')[0].play();
-                    $(endSection).removeClass().addClass("fadeInDownBig").addClass("animated"); // On affiche la fin de la partie
+                    $(htmlElement.jeuSection).addClass("noDisplay"); // On cache l'environnement de jeu
+                    
+                    $(htmlElement.endSection).removeClass().addClass("fadeInDownBig").addClass("animated"); // On affiche la fin de la partie
 
 
                     setTimeout(function(){
-                        $('#playerEnd').animate({volume: 0}, 2000, function(){
-                            $('#playerEnd')[0].pause();
-                            $('#playerEnd').currentTime = 0;
+                        $(ikeaSong).animate({volume: 0}, 2000, function(){
+                            ikeaSong.pause();
+                            ikeaSong.currentTime = 0;
                         });
                         
-                        nbUser = 0;
-                        playing = true;
-                        socket.emit("playing", playing);
+                        userParam.nbUser = 0;
+                        userParam.playing = true;
+                        socket.emit("playing", userParam.playing);
+
                         randMusic();
                         $('audio:not(#player, #playerEnd)').remove();
-                        $(jeuSection).removeClass().addClass('noDisplay');
-                        $(endSection).removeClass().addClass("noDisplay");
-                        $(home).removeClass().addClass("fadeInDownBig").addClass("animated");
+                        $(htmlElement.jeuSection).removeClass().addClass('noDisplay');
+                        $(htmlElement.endSection).removeClass().addClass("noDisplay");
+                        $(htmlElement.home).removeClass().addClass("fadeInDownBig").addClass("animated");
                     }, 9000);
                 }
             });
@@ -160,41 +180,40 @@
 
             /* Un utilisateur arrive */
             socket.on('newUser', function(data){
-
-                if(nbUser == 0){
-
-                    $(home).removeClass().addClass("noDisplay"); // On cache la section home
+                console.log(userParam.nbUser);
+                if(userParam.nbUser == 0){
 
                     initialize(function(){
-                        $(canvas).addClass("noDisplay");
-                        $(jeuSection).removeClass(); // On affiche l'environnement de jeu
+                        $(htmlElement.home).removeClass().addClass("noDisplay"); // On cache la section home
+                        $(htmlElement.canvas).addClass("noDisplay");
+                        $(htmlElement.jeuSection).removeClass(); // On affiche l'environnement de jeu
                         player.load(); // On lance le player
-                        playing = true;
-                        socket.emit("playing", playing);
                     });
                 }
                 
-                nbUser++;
+                userParam.nbUser++;
 
-                theId = data.id;
-                theInstrument = data.instrument.toLowerCase();
+                userParam.theId = data.id;
+                userParam.theInstrument = data.instrument.toLowerCase();
 
                 /* Création de player audio à la volée pour chaque utilisateur */
-                var ifAudioPlayer = $('audio[id='+theId+']').length;
+                var ifAudioPlayer = $('audio[id='+userParam.theId+']').length;
                 if(ifAudioPlayer == 0){
-                    $('body').append("<audio class='"+theId+"' src='sounds/"+theInstrument+".mp3'></audio>");
-                    $('body').append("<audio class='"+theId+"' src='sounds/"+theInstrument+".mp3'></audio>");
+                    $('body').append("<audio class='"+userParam.theId+"' src='sounds/"+userParam.theInstrument+".mp3'></audio>");
                 }    
             });
 
 
             socket.on('clicked', function(data){
-                theId = data.id;
-                theInstrument = data.instrument.toLowerCase();
+                userParam.theId = data.id;
+                userParam.theInstrument = data.instrument.toLowerCase();
                 
-                var playerAudioOne = $('audio[class='+theId+']')[0];
+                var playerAudioOne = $('audio[class='+userParam.theId+']')[0];
+                playerAudioOne.volume = 0.5;
                 //var playerAudioTwo = $('audio[class='+theId+']')[1];
-                playerAudioOne.currentTime = 0;
+                if(playerAudioOne.currentTime != 0)
+                    playerAudioOne.currentTime = 0;
+
                 playerAudioOne.play();
 
 
@@ -214,7 +233,7 @@
                 }*/
                 
 
-                console.log("On joue "+theInstrument);
+                console.log("On joue "+userParam.theInstrument);
             });
 
             socket.on('photo', function(photo) {
@@ -222,6 +241,9 @@
                 var clientWidth = $(document).width();
                 /* Création d'une div à la volée contenant l'avatar du membre qui a twittés */
                 $('#listimg').append('<div><img src="'+photo+'" /></div>');
+
+                /* Joue applaudissement */
+                audio.play();
 
                 var theDiv = $('#listimg div:last-of-type');
                 /* Calcul du nombre aléatoire pour déterminer la position du pin */
@@ -240,7 +262,8 @@
 
             function randMusic(){
                 $.getJSON("/js/musics.json", function(data){
-                    var nb = Math.floor(Math.random() * 3);
+                    var nb = Math.floor(Math.random() * 2);
+                    console.log(nb);
                     var i = 0;
                     $.each(data, function(key,val){
                         if(i == nb)

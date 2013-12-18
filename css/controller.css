@@ -237,11 +237,29 @@ section.instruction>ul{
 /* View instrument */
 
 section.instrument{
+    position: relative;
     width: 90%;
-    height: 80%;
+    height: 90%;
     margin-top: 10%;
+    margin: auto;
     vertical-align: middle;
     text-align: center;
+}
+
+
+section.instrument img {
+    position: absolute;
+    width: auto;
+    max-width: 80%;
+    max-height: 70%;
+    height: auto;
+    margin: auto;
+    top: 20%;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 /* View end */
@@ -253,6 +271,11 @@ section.end{
     font-size: 1.5em;
     font-family: Verdana;
     vertical-align: middle;
+    text-align: center;
+}
+
+section.end img{
+    margin: auto;
     text-align: center;
 }
 
@@ -387,3 +410,746 @@ section.choose .noDisplay{
     -o-animation-name: slideOutRight;
     animation-name: slideOutRight;
 }
+
+
+/*****POUR OREILLER****/
+
+#oreillerAnim img:nth-child(1) {
+    left: 50px;
+    top: 150px;
+}
+#oreillerAnim img:nth-child(2) {
+    left: 230px;
+    top: 40px;
+    opacity: 0;
+}
+
+/***POUR CASSEROLE***/
+
+#casseroleAnim img:nth-child(2) {
+    width:10%;
+    left: 200px;
+    top: 40px;
+    opacity: 0;
+}
+
+/***POUR POMME DE DOUCHE***/
+
+#pommeDoucheAnim img:nth-child(1) {
+    left: 50px;
+    top: 150px;
+}
+
+#pommeDoucheAnim img:nth-child(2) {
+    left: 51px;
+    top: 150px;
+    opacity: 0;
+}
+
+/***POUR STORE***/
+
+#storeAnim img:nth-child(1) {
+    left: 50px;
+    top: 150px;
+}
+
+#storeAnim img:nth-child(2) {
+    left: 51px;
+    top: 150px;
+    opacity: 0;
+}
+
+/*****POUR LE MEUBLE*********/
+#meubleAnim img:nth-child(3) {
+    top: 20px;
+
+    transform : rotate(15deg);
+    -webkit-transform : rotate(15deg);
+
+    opacity: 0;
+}
+
+#meubleAnim img:nth-child(1) {
+    top: 50px;
+    opacity: 1;
+}
+
+#meubleAnim img:nth-child(2) {
+    top: 50px;
+    opacity: 0;
+}
+
+/*****POUR LE ROBINET*********/
+
+#robinetAnim img:nth-child(1) {
+    top: 150px;
+    opacity: 1;
+}
+
+#robinetAnim img:nth-child(2) {
+    top: 150px;
+    opacity: 0;
+}
+
+/**POUR LE RIDEAU DE DOUCHE**/
+#rideauDoucheAnim img:nth-child(3) {
+    top: 150px;
+    opacity: 0;
+}
+
+#rideauDoucheAnim img:nth-child(1) {
+    top: 150px;
+    opacity: 1;
+}
+
+#rideauDoucheAnim img:nth-child(2) {
+    top: 150px;
+    opacity: 0;
+}
+
+/*********OREILLER*********/
+
+@-webkit-keyframes anim_oreiller{
+    0% {
+        transform : scale(1);
+        -webkit-transform : scale(1);
+    }
+
+    30% {
+        transform : scale(0.9);
+        -webkit-transform : scale(0.9);
+    }
+
+    100% {
+        transform : scale(1);
+        -webkit-transform : scale(1);
+    }
+}
+
+@-webkit-keyframes anim_effet{
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.oreillerAnim{
+    animation: anim_oreiller 0.3s;
+    -webkit-animation: anim_oreiller 0.3s;
+}
+
+.oreillerEffetSup{
+    animation: anim_effet 0.2s;
+    -webkit-animation: anim_effet 0.2s;
+}
+
+/********CHAISE**********/
+
+@-webkit-keyframes anim_chaise_droite{
+    0% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+
+    70% {
+        transform: scale(0.9)  translate(80px, -20px);
+        -webkit-transform: scale(0.9) translate(80px, -20px);   
+    }
+
+    100% {
+            transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+@-webkit-keyframes anim_chaise_gauche{
+    0% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+
+    70% {
+        transform: scale(1.1) translate(-80px, 20px);
+        -webkit-transform:  scale(1.1) translate(-80px, 20px);  
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+.chaiseAnim{
+    animation: anim_chaise_droite 0.5s;
+    -webkit-animation: anim_chaise_droite 0.5s;
+
+    animation: anim_chaise_gauche 0.5s;
+    -webkit-animation: anim_chaise_gauche 0.5s;
+}
+
+/**************ARROSOIR*******/
+
+@-webkit-keyframes anim_arrosoir{
+    0% {
+        transform: scale(1) translate(0, 0);
+        -webkit-transform: scale(1) translate(0, 0);
+    }
+
+    20% {
+        transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+    }
+
+    40% {
+        transform: rotate(10deg);
+        -webkit-transform: rotate(10deg);
+    }
+    60% {
+        transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+    }
+
+    80% {
+        transform: rotate(10deg);
+        -webkit-transform: rotate(10deg);
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+.arrosoirAnim{
+    animation: anim_arrosoir 1s;
+    -webkit-animation: anim_arrosoir 1s;
+}
+
+/********BROOSE A DENT*********/
+
+@-webkit-keyframes anim_brosse_dent_droit{
+    0% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(80px, 0);
+        -webkit-transform: translate(80px, 0);  
+    }
+
+    50% {
+        transform: translate(-40px, 0);
+        -webkit-transform: translate(-40px, 0);
+    }
+
+    75% {
+        transform: translate(100px, 0);
+        -webkit-transform: translate(100px, 0);
+    }
+
+
+    100% {
+            transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+
+@-webkit-keyframes anim_brosse_dent_gauche{
+    0% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-80px, 0);
+        -webkit-transform: translate(-80px, 0);
+    }
+
+    50% {
+        transform: translate(40px, 0);
+        -webkit-transform: translate(40px, 0);      
+    }
+
+    75% {
+        transform: translate(-100px, 0);
+        -webkit-transform: translate(-100px, 0);
+    }
+
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+
+.brosseAdentAnim{
+    animation: anim_brosse_dent_gauche 0.7s;
+    -webkit-animation: anim_brosse_dent_gauche 0.7s;
+    
+    animation: anim_brosse_dent_droit 0.7s;
+    -webkit-animation: anim_brosse_dent_droit 0.7s;
+    
+}
+
+/*********EPONGE*****************/
+
+@-webkit-keyframes anim_eponge_droit{
+    0% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(80px, 40px);
+        -webkit-transform: translate(80px, 40px);
+    }
+
+    50% {
+        transform: translate(-40px, -20px);
+        -webkit-transform: translate(-40px, -20px);
+    }
+
+    75% {
+        transform: translate(80px, 40px);
+        -webkit-transform: translate(80px, 40px);
+    }
+
+    100% {
+            transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+}
+
+
+@-webkit-keyframes anim_eponge_gauche{
+    0% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-80px, -40px);
+        -webkit-transform: translate(-80px, -40px);
+    }
+
+    50% {
+        transform: translate(40px, 20px);
+        -webkit-transform: translate(40px, 20px);       
+    }
+
+    75% {
+        transform: translate(-80px, -40px);
+        -webkit-transform: translate(-80px, -40px); 
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+    
+    }
+}
+
+.epongeAnim{
+    animation: anim_eponge_droit 0.7s;
+    -webkit-animation: anim_eponge_droit 0.7s;
+    
+    animation: anim_eponge_gauche 0.7s;
+    -webkit-animation: anim_eponge_gauche 0.7s;
+}
+
+/**********BALAI**************/
+@-webkit-keyframes anim_balai_droit{
+    0% {
+        transform: scale(1) translate(0, 0);
+        -webkit-transform: scale(1) translate(0, 0);
+
+        transform-origin:50% 0%;
+        -webkit-transform-origin:50% 0%;
+    }
+
+    50% {
+        transform: rotate(-15deg);
+        -webkit-transform: rotate(-15deg);
+
+        transform-origin:50% 0%;
+        -webkit-transform-origin:50% 0%;
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+
+        transform-origin:50% 0%;
+        -webkit-transform-origin:50% 0%;
+    }
+}
+
+@-webkit-keyframes anim_balai_gauche{
+    0% {
+        transform: scale(1) translate(0, 0);
+        -webkit-transform: scale(1) translate(0, 0);
+
+        transform-origin:50% 0%;
+        -webkit-transform-origin:50% 0%;
+    }
+
+    50% {
+
+        transform-origin:50% 0%;
+        -webkit-transform-origin:50% 0%;
+
+        transform: rotate(15deg);
+        -webkit-transform: rotate(15deg);   
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+
+        transform-origin:50% 0%;
+        -webkit-transform-origin:50% 0%;
+    }
+}
+
+.balaiAnimDroite{
+     animation: anim_balai_droit 0.7s;
+    -webkit-animation: anim_balai_droit 0.7s;
+}
+
+.balaiAnimGauche{
+     animation: anim_balai_gauche 0.7s;
+    -webkit-animation: anim_balai_gauche 0.7s;
+}
+
+/********CASSEROLE***********/
+
+@-webkit-keyframes anim_casserole{
+    0% {
+        transform : scale(1);
+        -webkit-transform : scale(1);
+    }
+
+    50% {
+        transform : scale(0.9);
+        -webkit-transform : scale(0.9);
+    }
+
+    100% {
+        transform : scale(1);
+        -webkit-transform : scale(1);
+    }
+}
+
+@-webkit-keyframes anim_effet{
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.casseroleAnim{
+    animation: anim_casserole 0.3s;
+    -webkit-animation: anim_casserole 0.3s;
+}
+
+.casseroleEffetSup{
+    animation: anim_effet 0.2s;
+    -webkit-animation: anim_effet 0.2s;
+}
+
+/************MINUTEUR********/
+
+@-webkit-keyframes anim_minuteur{
+    0% {
+        transform : scale(1);
+        -webkit-transform : scale(1);
+    }
+
+    50% {
+        transform : scale(0.9);
+        -webkit-transform : scale(0.9);
+    }
+
+    100% {
+        transform : scale(1);
+        -webkit-transform : scale(1);
+    }
+}
+
+
+.minuteurAnim{
+    animation: anim_minuteur 0.3s;
+    -webkit-animation: anim_minuteur 0.3s;
+}
+
+/*****COUTEAU**********/
+
+@-webkit-keyframes anim_couteau{
+    0% {
+        transform: scale(1) translate(0, 0);
+        -webkit-transform: scale(1) translate(0, 0);
+
+        transform-origin:0% 100%;
+        -webkit-transform-origin:0% 100%;
+    }
+
+    50% {
+
+        transform-origin:0% 100%;
+        -webkit-transform-origin:0% 100%;
+
+        transform: rotate(35deg) translate(0, 10px);
+        -webkit-transform: rotate(35deg) translate(0, 10px);
+        
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+
+        transform-origin:0% 100%;
+        -webkit-transform-origin:0% 100%;
+    }
+}
+
+.couteauAnim{
+    animation: anim_couteau 0.3s;
+    -webkit-animation: anim_couteau 0.3s;
+}
+/********SALIERE************/
+
+@-webkit-keyframes anim_saliere{
+    0% {
+        transform: scale(1) translate(0, 0);
+        -webkit-transform: scale(1) translate(0, 0);
+    
+        transform-origin:50% 100%;
+        -webkit-transform-origin:50% 100%;
+    }
+
+    50% {
+
+        transform-origin:50% 100%;
+        -webkit-transform-origin:50% 100%;
+    
+        transform: rotate(10deg) translate(50px, 0px);
+        -webkit-transform: rotate(10deg) translate(50px, 0px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+
+        transform-origin:50% 100%;
+        -webkit-transform-origin:50% 100%;
+    }
+}
+
+.saliereAnim{
+    animation: anim_saliere 0.4s;
+    -webkit-animation: anim_saliere 0.4s;
+}
+
+/********POMME DE DOUCHE***********/
+
+@-webkit-keyframes anim_pomme_douche{
+    0% {opacity: 1;}
+    1% {opacity: 0;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@-webkit-keyframes anim_pomme_douche_eau{
+    0% {opacity: 0;}
+    1% {opacity: 1;}
+    99% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.pommeDouche0Anim{
+    animation: anim_pomme_douche 0.4s;
+    -webkit-animation: anim_pomme_douche 0.4s;
+}
+.pommeDouche1Anim{
+    animation: anim_pomme_douche_eau 0.4s;
+    -webkit-animation: anim_pomme_douche_eau 0.4s;
+}
+
+/************STORE**********/
+
+@-webkit-keyframes anim_store_ferme{
+    0% {opacity: 1;}
+    1% {opacity: 0;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@-webkit-keyframes anim_store_ouvert{
+    0% {opacity: 0;}
+    1% {opacity: 1;}
+    99% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.store0Anim{
+    animation: anim_store_ferme 0.4s;
+    -webkit-animation: anim_store_ferme 0.4s;
+}
+.store1Anim{
+    animation: anim_store_ouvert 0.4s;
+    -webkit-animation: anim_store_ouvert 0.4s;
+}
+
+/**************MEUBLE*************/
+
+@-webkit-keyframes meuble_ouvert{
+    0% {opacity: 1;}
+    1% {opacity: 0;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+
+@-webkit-keyframes meuble_ferme{
+    0% {opacity: 0;}
+    1% {opacity: 1;}
+    99% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@-webkit-keyframes anim_effet{
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.meuble0Anim{
+    animation: meuble_ouvert 0.2s;
+    -webkit-animation: meuble_ouvert 0.2s;
+}
+
+.meuble1Anim{
+    animation: meuble_ferme 0.2s;
+    -webkit-animation: meuble_ferme 0.2s;
+}
+
+.meubleEffetSup{
+    animation: anim_effet 0.2s;
+    -webkit-animation: anim_effet 0.2s;
+}
+
+/**********ROBINET***************/
+
+@-webkit-keyframes robinet_ferme{
+    0% {opacity: 1;}
+    1% {opacity: 0;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+
+@-webkit-keyframes robinet_ouvert{
+    0% {opacity: 0;}
+    1% {opacity: 1;}
+    99% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@-webkit-keyframes anim_effet{
+    0% {
+        transform: translate(0px, 0px);
+        -webkit-transform: translate(0px, 0px); 
+        opacity:1;
+    }
+
+    100% {
+        transform: translate(0px, 100px);
+        -webkit-transform: translate(0px, 100px);   
+        opacity:0;
+    }
+}
+
+
+.robinet0Anim{
+    animation: robinet_ferme 0.5s;
+    -webkit-animation: robinet_ferme 0.5s;
+}
+
+.robinet1Anim{
+    animation: robinet_ouvert 0.5s;
+    -webkit-animation: robinet_ouvert 0.5s;
+}
+
+.robinetEffetSup{
+    animation: anim_effet 0.5s;
+    -webkit-animation: anim_effet 0.5s;
+}
+
+/*********RIDEAU DE DOUCHE**********/
+
+@-webkit-keyframes rideau_centre{
+    0% {opacity: 1;}
+    1% {opacity: 0;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+
+@-webkit-keyframes rideau_gauche{
+    0% {opacity: 0;}
+    1% {opacity: 1;}
+    99% {opacity: 1;}
+    100% {opacity:0;}
+
+}
+
+@-webkit-keyframes rideau_droit{
+    0% {opacity: 0;}
+    1% {opacity: 1;}
+    99% {opacity: 1;}
+    100% {opacity:0;}
+
+}
+
+.rideauAnim{
+    animation: rideau_centre 0.3s;
+    -webkit-animation: rideau_centre 0.3s;
+}
+
+.rideauGaucheAnim{
+    animation: rideau_gauche 0.3s;
+    -webkit-animation: rideau_gauche 0.3s;
+}
+
+.rideauDroiteAnim{
+    animation: rideau_droit 0.3s;
+    -webkit-animation: rideau_droit 0.3s;
+}
+
+

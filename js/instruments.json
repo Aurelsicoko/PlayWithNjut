@@ -1,77 +1,100 @@
 {
-	"rideau" : {
-		"evt" : "shake",
-		"place" : "sdb",
-		"title" : "du rideau"
-	},
 	"balai" : {
-		"evt" : "click",
+		"evt" : "swipe",
 		"place" : "cuisine",
-		"title" : "du balai"
+		"title" : "du balai",
+		"animation" : "simple",
+		"timeAnim" : 600
 	},
 	"minuteur" : {
 		"evt" : "swipe",
 		"place" : "cuisine",
-		"title" : "du minuteur"
+		"title" : "du minuteur",
+		"animation" : "simple",
+		"timeAnim" : 270
 	},
 	"couteau" : {
 		"evt" : "swipe",
 		"place" : "cuisine",
-		"title" : "du couteau"
+		"title" : "du couteau",
+		"animation" : "simple",
+		"timeAnim" : 270
 	},
 	"chaise" : {
 		"evt" : "click",
 		"place" : "salon",
-		"title" : "de la chaise"
+		"title" : "de la chaise",
+		"animation" : "simple",
+		"timeAnim" : 200
 	},
 	"pommeDouche" : {
 		"evt" : "swipe",
 		"place" : "sdb",
-		"title" : "de la pomme de douche"
+		"title" : "de la pomme de douche",
+		"animation" : "moderee",
+		"timeAnim" : 200
 	},
 	"arrosoir" : {
 		"evt" : "shake",
 		"place" : "salon",
-		"title" : "de l'arrosoir"
+		"title" : "de l'arrosoir",
+		"animation" : "simple",
+		"timeAnim" : 800
 	},
 	"oreiller" : {
 		"evt" : "click",
 		"place" : "salon",
-		"title" : "de l'oreiller"
+		"title" : "de l'oreiller",
+		"animation" : "simpleAnim",
+		"timeAnim" : 200
 	},
 	"brosseAdent" : {
 		"evt" : "swipe",
 		"place" : "sdb",
-		"title" : "de la brosse à dent"
+		"title" : "de la brosse à dent",
+		"animation" : "simple",
+		"timeAnim" : 650
 	},
 	"casserole" : {
-		"evt" : "shake",
+		"evt" : "click",
 		"place" : "salon",
-		"title" : "de la casserole"
+		"title" : "de la casserole",
+		"animation" : "simpleAnim",
+		"timeAnim" : 200
 	},
 	"eponge" : {
 		"evt" : "swipe",
 		"place" : "sdb",
-		"title" : "de l'éponge"
+		"title" : "de l'éponge",
+		"animation" : "simple",
+		"timeAnim" : 650
 	},
 	"store" : {
 		"evt" : "swipe",
 		"place" : "salon",
-		"title" : "du store"
+		"title" : "du store",
+		"animation" : "moderee",
+		"timeAnim" : 200
 	},
 	"meuble" : {
 		"evt" : "click",
 		"place" : "salon",
-		"title" : "du meuble"
+		"title" : "du meuble",
+		"animation" : "modereeAnim",
+		"timeAnim" : 200
 	},
 	"robinet" : {
 		"evt" : "click",
 		"place" : "sdb",
-		"title" : "du robinet"
+		"title" : "du robinet",
+		"animation" : "moderee",
+		"timeAnim" : 200
 	},
 	"saliere" : {
 		"evt" : "shake",
 		"place" : "cuisine",
-		"title" : "de la salière"
+		"title" : "de la salière",
+		"animation" : "simple",
+		"timeAnim" : 350
 	}
 }

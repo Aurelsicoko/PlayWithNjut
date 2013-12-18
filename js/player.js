@@ -28,13 +28,12 @@ var player = {
 
 	load : function(){
 		this.media.load();
-		$(this.media).on('canplaythrough', function(){
-			player.property.loaded.call(this);
-		});
+		this.media.addEventListener('canplaythrough', handler, false);
 	},
 
 	play : function(){
 		this.media.play();
+		this.media.removeEventListener('canplaythrough', handler, false);
 		this.property.playing.call(this);
 		socket.emit('debutPartie');
 	},
@@ -52,7 +51,7 @@ var player = {
 	setFile : function(file){
 		this.params.file = file;
 		this.media.src = this.params.file;
-		this.media.load();
+		console.log("src changé");
 	},
 
 	clic : function(){
@@ -61,3 +60,8 @@ var player = {
 	}
 
 };
+
+function handler(){
+	console.log('canplaythrough');
+	player.property.loaded.call(this);
+}

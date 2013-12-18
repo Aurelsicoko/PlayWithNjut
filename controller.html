@@ -40,18 +40,30 @@
         <script type="text/javascript">
 
             var socket = io.connect();
-            var myId;
             var clientWidth = $(document).width();
-            var myInstrument, myMvt, thePlace;
-            var chooseHtml = $('section.choose');
-            var instructionHtml = $('section.instruction');
-            var instrumentHtml = $('section.instrument');
-            var endHtml = $('section.end');
-            var bg;
+
+            /* User params */
+            var userParam = {
+                myInstrument : null,
+                myMvt : null,
+                myId : null,
+                myAnim : null,
+                thePlace : null,
+                timeAnim : 0
+            };
+
+            /* HTML Elements */
+            var htmlElement = {
+                chooseHtml : $('section.choose'),
+                instructionHtml : $('section.instruction'),
+                instrumentHtml : $('section.instrument'),
+                endHtml : $('section.end'),
+                bg : null
+            };
 
             /* CSS */
-            $(chooseHtml).show();
-            $(chooseHtml).find('*:not(p:last-of-type)').addClass('noDisplay');
+            $(htmlElement.chooseHtml).show();
+            $(htmlElement.chooseHtml).find('*:not(p:last-of-type)').addClass('noDisplay');
             $('body').addClass('bg');
             
 
@@ -60,22 +72,22 @@
 
             /* Récupération de son id */
             socket.on('myId', function(data){
-                myId = data;
+                userParam.myId = data;
             });
 
             /* Le serveur renvoit une erreur car la partie est pleine */
             socket.on('sorry', function(){
-                $(chooseHtml).html('<p>Désolé la partie est pleine !</p>');
+                $(htmlElement.chooseHtml).html('<p>Désolé la partie est pleine !</p>');
             });
 
             /* On est bien connecté */
             socket.on('connected', function(data){
                 console.log(data);
-                thePlace = data.place;
-                bg = data.bg;
+                userParam.thePlace = data.place;
+                htmlElement.bg = data.bg;
 
                 /* Changement du background en fonction de la pièce */
-                $('body').css({"background-color":bg}); // METTRE EN CLASS
+                $('body').css({"background-color":htmlElement.bg}); // METTRE EN CLASS
 
                 /* Création d'un cercle responsive */
                 drawCircle();
@@ -88,7 +100,7 @@
                     var i=0;
                     var ul = $('section.choose ul');
                     $.each(data, function(key,val){
-                        if(val.place == thePlace){
+                        if(val.place == userParam.thePlace){
                             $(ul).append("<li class='noDisplay'><img src='img/"+key+".png' title='"+key+"' class=\""+val.title+"\" alt='"+i+"' /></li>");
                             
                             if(i==0)
@@ -106,10 +118,10 @@
                     }
 
                     /* Lorsque les images sont chargés, il peut choisir */
-                    $(chooseHtml).find('img').load(function(){
-                        $(chooseHtml).find('*:not(p:last-of-type)').removeClass('noDisplay');
-                        $(chooseHtml).find('p:last-of-type').hide();
-                        $(chooseHtml).find('ul').addClass('loaded');
+                    $(htmlElement.chooseHtml).find('img').load(function(){
+                        $(htmlElement.chooseHtml).find('*:not(p:last-of-type)').removeClass('noDisplay');
+                        $(htmlElement.chooseHtml).find('p:last-of-type').hide();
+                        $(htmlElement.chooseHtml).find('ul').addClass('loaded');
                     });
                     
                     /* Sélection d'un instrument avec swipe */
@@ -168,10 +180,10 @@
 
                 /* Fin de la partie, on redirige le joueur */
                 socket.on('thanks', function(){
-                    if(myMvt == "shake"){
+                    if(userParam.myMvt == "shake"){
                         $(window).off('shake');
                     }
-                    else if(myMvt == "swipe"){
+                    else if(userParam.myMvt == "swipe"){
                         $('body').swipe("destroy");
                     }
                     else{
@@ -180,36 +192,39 @@
 
                     /* On renvoie au serveur qu'on veut se déconnecter */
                     socket.emit('goOut');
-                    $(instructionHtml).hide();
-                    $(chooseHtml).hide();
-                    $(instrumentHtml).hide();
+                    $(htmlElement.instructionHtml).hide();
+                    $(htmlElement.chooseHtml).hide();
+                    $(htmlElement.instrumentHtml).hide();
                     $('body').removeClass().addClass('bg');
-                    $(endHtml).show("fast");
+                    $(htmlElement.endHtml).show("fast");
                 })
 
                 /* Sélection de son instrument */
                 $('section.choose button').on('vclick', function(e){
 
                     e.currentTarget = $("section.choose li:not(.noDisplay) img")[0];
-                    myInstrument = e.currentTarget.title.toLowerCase(); // On passe en minuscule le nom de l'instrument
+                    userParam.myInstrument = e.currentTarget.title; // On passe en minuscule le nom de l'instrument
                     socket.emit("chooseInstrument", e.currentTarget.title); // Envoie au serveur de l'instrument choisi
 
                     /* On va chercher le mouvement de l'instrument */
                     $.getJSON("/js/instruments.json", function(data){
                         $.each(data, function(key,val){
-                            if(myInstrument == key)
-                                myMvt = val.evt;
+                            if(userParam.myInstrument == key){
+                                userParam.myMvt = val.evt;
+                                userParam.myAnim = val.animation;
+                                userParam.timeAnim =  val.timeAnim;
+                            }    
                         });
 
                         /* Selon l'instrument, on écoute différents évènements ou geste */
-                        if(myMvt == "shake"){
+                        if(userParam.myMvt == "shake"){
 
                             /* Si on shake le mobile, on joue la musique */
                             if(window.DeviceMotionEvent){
                                 
                                 window.addEventListener('shake', function(){
-                                    socket.emit("click", myId);
-
+                                    socket.emit("click", userParam.myId);
+                                    resetClass();
                                 }, false);
                             } 
                             else{
@@ -220,12 +235,12 @@
                                 }, 2000);
                             }
                         }
-                        else if(myMvt == "swipe"){
+                        else if(userParam.myMvt == "swipe"){
                             /* Si on swipe, on joue de la musique */
                             $('body').swipe( {
                                 swipe:function(event, direction, distance, duration, fingerCount) {
-                                    $('section.instrument img').css({top:event.y, left:event.x});
-                                    socket.emit("click", myId);
+                                    socket.emit("click", userParam.myId);
+                                    resetClass(direction);
                                     socket.emit("message", direction);       
                                 },
                                 
@@ -235,46 +250,128 @@
                         else{
                             /* Lorsqu'il clique sur l'instrument, on joue */
                             $('section.instrument').on('vclick', function(e){
-                                var top = e.clientY-$('section.instrument img').height();
-                                var left = e.clientX-($('section.instrument img').width()/2);
-                                $('section.instrument img').css({top:top, left:left});
-                                socket.emit("click", myId);
+                                socket.emit("click", userParam.myId);
+                                resetClass();
                             });
                         }
 
                         var text;
 
-                        if(myMvt == "swipe")
+                        if(userParam.myMvt == "swipe")
                             text = "Faites glisser votre doigt de gauche à droite pour produire un son";
-                        else if(myMvt == "shake")
+                        else if(userParam.myMvt == "shake")
                             text = "Secouez l’écran pour produire un son";
                         else
                             text = "Touchez l’écran pour produire un son";
 
-                        $('body').removeClass().addClass(bg);
-                        $(chooseHtml).hide("fast"); // On cache la sélection des instruments
-                        $(instructionHtml).find('p').html(text);
-                        $(instructionHtml).find('ul').html('<img src="img/'+myMvt+'.png" />');
-                        $(instructionHtml).show("fast"); // On affiche les instructios
+                        $('body').removeClass().addClass(htmlElement.bg);
+                        $(htmlElement.chooseHtml).hide("fast"); // On cache la sélection des instruments
+                        $(htmlElement.instructionHtml).find('p').html(text);
+
+                        /* Instruction de jeu */
+                        $(htmlElement.instructionHtml).find('ul').html('<img src="img/'+userParam.myMvt+'.png" />');
+                        $(htmlElement.instructionHtml).show("fast"); // On affiche les instructios
                             
 
                         /* On laisse le joueur joué */
                         setTimeout(function(){
-                            $(instructionHtml).hide("fast");
+                            $(htmlElement.instructionHtml).hide("fast");
+                            
+                            var content;
+                            console.log(userParam.myAnim);
+                            /* On inclut les schémas HTML ici */
+                            if(userParam.myAnim == "simple"){
+                                content = "<img src=img/"+userParam.myInstrument+".png />"; 
+                            }
+                            else if(userParam.myAnim == "simpleAnim"){
+                                content = "<img src=img/"+userParam.myInstrument+".png /><img src=img/effet.png />";
+                            }
+                            else if(userParam.myAnim == "moderee"){
+                                content = "<img src=img/"+userParam.myInstrument+"0.png /><img src=img/"+userParam.myInstrument+"1.png />";
+                            }
+                            else if(userParam.myAnim == "modereeAnim"){
+                                if(userParam.myInstrument == "robinet"){
+                                    content = "<img src=img/"+userParam.myInstrument+"0.png /><img src=img/"+userParam.myInstrument+"1.png  /><img src=img/goutte_robinet.png />";
+                                }
+                                else{
+                                    content = "<img src=img/"+userParam.myInstrument+"0.png /><img src=img/"+userParam.myInstrument+"1.png  /><img src=img/effet.png />";
+                                }
                                 
-                            $('section.instrument').html('<img src="'+e.currentTarget.src+'" />').show("fast"); // On affiche son instrument
-                        }, 7500);
+                            }
+                            else{ // Complexe
+                                content = "<img src=img/"+userParam.myInstrument+"0.png /><img src=img/"+userParam.myInstrument+".png /><img src=img/"+userParam.myInstrument+"1.png />";
+                            }
+
+                            /* */
+                            $(htmlElement.instrumentHtml).attr('id', userParam.myInstrument+'Anim'); 
+                            $(htmlElement.instrumentHtml).append(content).show("fast", function(){
+                                var client = $(htmlElement.instrumentHtml).width();
+                                var left = $(htmlElement.instrumentHtml).find('img');
+                                setTimeout(function(){
+                                    for(var i=0; i<left.length; i++){
+                                        var selfLeft = $(left[i]).width();
+                                        $(left[i]).css({left:((client-selfLeft)/2)});
+                                    }
+                                }, 200);
+                                
+                            }); // On affiche son instrument
+                            
+                        }, 6000);
 
                     });
                 });           
             });   
+
+            function resetClass(direction){
+
+                /* On inclut les schémas HTML ici */
+                var imgs = $(htmlElement.instrumentHtml).find('img');
+
+                if(userParam.myAnim == "simple"){
+                    if(userParam.myInstrument == "balai"){
+                        if(direction == "right")
+                            $(imgs[0]).addClass(userParam.myInstrument+"AnimDroite");
+                        else
+                            $(imgs[0]).addClass(userParam.myInstrument+"AnimGauche");
+                    }
+                    else{
+                        $(imgs[0]).addClass(userParam.myInstrument+"Anim");
+                    }
+                    
+                }
+                else if(userParam.myAnim == "simpleAnim"){
+                    $(imgs[0]).addClass(userParam.myInstrument+"Anim");
+                    $(imgs[1]).addClass(userParam.myInstrument+"EffetSup");
+                }
+                else if(userParam.myAnim == "moderee"){
+                    $(imgs[0]).addClass(userParam.myInstrument+"0Anim");
+                    $(imgs[1]).addClass(userParam.myInstrument+"1Anim");
+                }
+                else if(userParam.myAnim == "modereeAnim"){
+                    $(imgs[0]).addClass(userParam.myInstrument+"0Anim");
+                    $(imgs[1]).addClass(userParam.myInstrument+"1Anim");
+                    $(imgs[2]).addClass(userParam.myInstrument+"EffetSup");
+                }
+                else{ // Complexe
+                    $(imgs[0]).addClass(userParam.myInstrument+"DroiteAnim");
+                    $(imgs[1]).addClass(userParam.myInstrument+"Anim");
+                    $(imgs[2]).addClass(userParam.myInstrument+"GaucheAnim");
+                } 
+
+                setTimeout(function(){
+                    for(var i=0; i<imgs.length ; i++){
+                        $(imgs[i]).removeClass();
+                    }
+                }, userParam.timeAnim);
+                   
+            }
 
             function drawCircle(){
                 var window70 = $(window).height()*0.5;
 
                 var diametre = window70;
 
-                $(chooseHtml).find('ul').css({"border-radius":diametre+"px", "height":diametre+"px", "width" : diametre+"px"}).addClass(bg);
+                $(htmlElement.chooseHtml).find('ul').css({"border-radius":diametre+"px", "height":diametre+"px", "width" : diametre+"px"}).addClass(htmlElement.bg);
             }       
         </script>
     </body>

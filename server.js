@@ -71,7 +71,7 @@ var T = new Twit({
     access_token_secret: 'whf6N0tqiZx91JqZhUvPMpNFOQw162R8jzjZwWR18gWnz'
 });
 
-var stream=T.stream('statuses/filter', {track: '#apple'});
+var stream = T.stream('statuses/filter', {track: '#apple'});
 
 io.sockets.on('connection', function (socket) {
 
@@ -79,15 +79,23 @@ io.sockets.on('connection', function (socket) {
     socket.on('connect', function(who){
         console.log(who+" : I'm connected!");
 
-        if(who == "index"){
+        if(who == "index" && playing == false){
+            console.log("première connexion index");
             thePlace = null;
-            restart();
+            restart(); // On lance une partie
+        }  
+        else if(who == "index" && playing == true){
+            console.log("autre connexion index");
             socket.broadcast.emit('thanks');  // On renvoie un merci
-        }    
+            restart(); // On relance une partie
+        }
 
         if(playing == true){
             /* Quand le premier instrument se connecte, ça lance la musique  */
             if(who == "instrument" && theInstruments.length == 0){
+                console.log("first instrument");
+                console.log("start stream");
+                stream.start(); // On lance le stream twitter lors de la première connexion d'un instrument
                 socket.emit('connected', {place:thePlace, bg:theBg}); // On renvoie à l'utilisateur le lieu
                 socket.broadcast.emit('connected', {place:thePlace, bg:theBg}); // On envoie à l'index qu'on a un utilisateur
             }    
@@ -96,16 +104,10 @@ io.sockets.on('connection', function (socket) {
                     socket.emit('connected', {place:thePlace, bg:theBg});
                  }
                  else{
-                    console.log("Sorry 1");
                     socket.emit("sorry");
                  }
             }
-        }
-
-        if(who == "index"){
-            console.log("playing true");
-            playing = true;
-        }
+        }    
     });
 
     /* L'utilisateur a choisi un instrument */
@@ -143,8 +145,8 @@ io.sockets.on('connection', function (socket) {
 
     /* Fin d'une partie */
     socket.on('end', function(){
-        restart();
         socket.broadcast.emit('thanks');  // On renvoie un merci
+        restart();
     });
 
     socket.on('goOut', function(){
@@ -176,7 +178,8 @@ io.sockets.on('connection', function (socket) {
 
     /* On remet tout à zéro pour accueillir une nouvelle partie */
     function restart(){
-
+        console.log("stop stream");
+        stream.stop(); // On stoppe le stream dès que c'est terminé
         theInstruments = null;
         theInstruments =  new Array();
 
